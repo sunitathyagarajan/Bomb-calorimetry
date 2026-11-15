@@ -12,7 +12,7 @@
   --accent:#0c6a77; --accent-soft:#d8edf0; --accent-ink:#ffffff;
   --heat:#c24f19; --heat-soft:#fbe5d8; --cool:#2b62a6;
   --good:#21703a; --good-soft:#ddf0e2; --bad:#ad271e; --bad-soft:#f8dfdc; --warn:#865800; --warn-soft:#faefd2;
-  --steel:#b9c4cc; --steel-edge:#6c7c88; --water:#cde4f2; --gas:#f4f8fb; --jacket:#dde4e9; --pellet:#efe9da;
+  --steel:#b9c4cc; --steel-edge:#6c7c88; --water:#cde4f2; --gas:#f4f8fb; --jacket:#dde4e9; --pellet:#efe9da; --transfer:#a32a8f;
   --font:"Segoe UI","Segoe UI Variable Text","Segoe UI Web (West European)",system-ui,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
   --radius:10px;
 }
@@ -22,7 +22,7 @@
     --accent:#56b8c4; --accent-soft:#163a40; --accent-ink:#061215;
     --heat:#f08a52; --heat-soft:#3b2419; --cool:#7eaae6;
     --good:#6cc884; --good-soft:#15301f; --bad:#f08a80; --bad-soft:#3a1c1a; --warn:#e3b54f; --warn-soft:#382c11;
-    --steel:#56646f; --steel-edge:#8d9ca7; --water:#15334a; --gas:#1c2830; --jacket:#24303a; --pellet:#d7d0bb;
+    --steel:#56646f; --steel-edge:#8d9ca7; --water:#15334a; --gas:#1c2830; --jacket:#24303a; --pellet:#d7d0bb; --transfer:#e27fd2;
     color-scheme:dark;
   }
 }
@@ -31,7 +31,7 @@
   --accent:#56b8c4; --accent-soft:#163a40; --accent-ink:#061215;
   --heat:#f08a52; --heat-soft:#3b2419; --cool:#7eaae6;
   --good:#6cc884; --good-soft:#15301f; --bad:#f08a80; --bad-soft:#3a1c1a; --warn:#e3b54f; --warn-soft:#382c11;
-  --steel:#56646f; --steel-edge:#8d9ca7; --water:#15334a; --gas:#1c2830; --jacket:#24303a; --pellet:#d7d0bb;
+  --steel:#56646f; --steel-edge:#8d9ca7; --water:#15334a; --gas:#1c2830; --jacket:#24303a; --pellet:#d7d0bb; --transfer:#e27fd2;
   color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:border-box}
@@ -143,7 +143,7 @@ figcaption{font-size:.88rem;color:var(--ink-2);margin-top:8px;max-width:75ch}
 .field .hint{font-size:.78rem;color:var(--ink-2)}
 .field output{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:600}
 input[type="text"],input[type="number"],select,textarea{width:100%;background:var(--bg);border:1px solid var(--line-strong);border-radius:8px;padding:8px 10px;min-width:0}
-input[type="number"]{font-variant-numeric:tabular-nums}
+input[inputmode="decimal"]{font-variant-numeric:tabular-nums}
 textarea{resize:vertical;line-height:1.45}
 input[type="range"]{width:100%;accent-color:var(--accent)}
 .btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line-strong);background:var(--surface);border-radius:8px;padding:7px 14px;cursor:pointer;font-weight:600;font-size:.9rem}
@@ -159,8 +159,8 @@ input[type="range"]{width:100%;accent-color:var(--accent)}
 .calc-eq{font-size:1.08rem;background:var(--bg);border-radius:8px;padding:10px 14px;overflow-x:auto;white-space:nowrap}
 .kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
 .kv div{background:var(--bg);border-radius:8px;padding:10px 12px;min-width:0}
-.kv dt,.kv .k{font-size:.8rem;color:var(--ink-2)}
-.kv dd,.kv .v{margin:2px 0 0;font-size:1.08rem;font-weight:600;font-variant-numeric:tabular-nums}
+.kv .k{font-size:.8rem;color:var(--ink-2)}
+.kv .v{margin:2px 0 0;font-size:1.08rem;font-weight:600;font-variant-numeric:tabular-nums}
 .kv .v.heat{color:var(--heat)}
 .kv .v.acc{color:var(--accent)}
 .err{color:var(--bad);font-size:.9rem}
@@ -227,6 +227,36 @@ input[type="range"]{width:100%;accent-color:var(--accent)}
 .part-list button[aria-pressed="true"]{background:var(--heat-soft)}
 .part-list button[aria-pressed="true"] .d{background:var(--heat);color:var(--surface)}
 
+/* Heat-flow animation */
+.heatflow{margin-top:20px}
+.heatflow .hf-controls{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.3fr);gap:14px 20px;align-items:end;margin-bottom:14px}
+.heatflow .hf-btns{display:flex;gap:8px}
+.heatflow svg .hf-glow-in{fill:var(--heat)}
+.heatflow svg .hf-glow-wall{fill:none;stroke:var(--heat);stroke-width:6}
+.heatflow svg .hf-arrow{stroke:var(--transfer);stroke-width:2.6;fill:none;stroke-dasharray:7 5;stroke-linecap:round}
+.heatflow svg .hf-arrows.flowing .hf-arrow{animation:hfflow .6s linear infinite}
+@keyframes hfflow{to{stroke-dashoffset:-12}}
+.heatflow svg .mk-transfer{fill:var(--transfer)}
+.heatflow svg .thermo-glass{fill:var(--surface);stroke:var(--steel-edge);stroke-width:1.5}
+.heatflow svg .thermo-col{fill:var(--accent)}
+.heatflow svg .thermo-tick{stroke:var(--ink-2);stroke-width:1}
+.heatflow svg .thermo-lab{font-size:11px;fill:var(--ink);font-variant-numeric:tabular-nums}
+.heatflow svg .key-t{font-size:13px;fill:var(--ink)}
+.heatflow svg .phase-t{font-size:14px;font-weight:600;fill:var(--ink)}
+.heatflow svg .time-t{font-size:13px;fill:var(--ink-2);font-variant-numeric:tabular-nums}
+.heatflow .kv > div{display:flex;flex-direction:column;justify-content:space-between}
+.heatflow .kv .v.tr{color:var(--transfer)}
+.heatflow .kv .v.acc{color:var(--accent)}
+.hf-bar{display:flex;height:14px;border-radius:5px;overflow:hidden;background:var(--surface-2);margin-top:12px}
+.hf-bar span{display:block;height:100%}
+.hf-bar .b-r{background:var(--heat)}
+.hf-bar .b-t{background:var(--transfer)}
+.hf-legend .sw.heat{background:var(--heat);border-radius:3px}
+.hf-legend .sw.tr{background:var(--transfer);border-radius:3px}
+
+#hf-live{margin-top:10px}
+@media (max-width:700px){.heatflow .hf-controls{grid-template-columns:minmax(0,1fr)}}
+
 /* Tables */
 .tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
 table{border-collapse:collapse;width:100%;font-size:.92rem}
@@ -249,6 +279,7 @@ td.r,th.r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:-1px;position:relative}
 .tab{border:1px solid var(--line);border-bottom:0;background:var(--surface-2);border-radius:10px 10px 0 0;padding:9px 14px;cursor:pointer;font-size:.9rem;font-weight:600;color:var(--ink-2);display:flex;gap:8px;align-items:center}
 .tab .k{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700;padding:1px 6px;border-radius:5px}
+.tab .sh{display:none}
 .tab .k.cal{background:var(--accent-soft);color:var(--accent)}
 .tab .k.smp{background:var(--heat-soft);color:var(--heat)}
 .tab[aria-selected="true"]{background:var(--surface);color:var(--ink)}
@@ -308,7 +339,7 @@ details .sol{background:var(--bg);border-radius:8px;padding:10px 12px;font-size:
 .score .txt{font-weight:600;font-variant-numeric:tabular-nums}
 
 /* References */
-.refs{margin:0;padding-left:28px;display:grid;gap:10px;max-width:80ch;font-size:.94rem}
+.refs{margin:0;padding-left:28px;display:grid;gap:10px;max-width:80ch;font-size:.94rem;overflow-wrap:anywhere}
 .refs li::marker{font-weight:700;color:var(--ink-2)}
 .refs li:target{background:var(--accent-soft);border-radius:6px}
 footer{border-top:1px solid var(--line);margin-top:56px;padding-top:18px;font-size:.84rem;color:var(--ink-2)}
@@ -339,6 +370,8 @@ footer{border-top:1px solid var(--line);margin-top:56px;padding-top:18px;font-si
   .tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
   .tab{flex-direction:column;gap:3px;padding:8px 4px;font-size:.84rem}
   .tab .k{font-size:.62rem;padding:1px 4px}
+  .tab .lg{display:none}
+  .tab .sh{display:inline}
 }
 </style>
 </head>
@@ -369,8 +402,8 @@ footer{border-top:1px solid var(--line);margin-top:56px;padding-top:18px;font-si
     <aside class="flow" aria-label="Workflow of the experiment">
       <h2>The experiment in three steps</h2>
       <ol>
-        <li><div><b>Calibrate</b><span>Burn benzoic acid of known energy to find the calorimeter constant.</span><span class="mini-eq"><i>C</i><sub>cal</sub> = <i>q</i><sub>known</sub> / Δ<i>T</i></span></div></li>
-        <li><div><b>Measure</b><span>Burn your sample under identical conditions and record Δ<i>T</i>.</span><span class="mini-eq"><i>q</i><sub>V</sub> = <i>C</i><sub>cal</sub> Δ<i>T</i> = −Δ<sub>c</sub><i>U</i></span></div></li>
+        <li><div><b>Calibrate</b><span>Burn benzoic acid of known energy to find the calorimeter constant.</span><span class="mini-eq"><i>C</i><sub>cal</sub> = <i>q</i><sub>released</sub> / Δ<i>T</i></span></div></li>
+        <li><div><b>Measure</b><span>Burn your sample under identical conditions and record Δ<i>T</i>.</span><span class="mini-eq"><i>C</i><sub>cal</sub> Δ<i>T</i> = −<i>q</i><sub>V</sub> = −Δ<sub>c</sub><i>U</i></span></div></li>
         <li><div><b>Convert</b><span>Correct for gas moles and apply Hess's law.</span><span class="mini-eq">Δ<sub>c</sub><i>H</i> = Δ<sub>c</sub><i>U</i> + Δ<i>n</i><sub>g</sub><i>RT</i></span></div></li>
       </ol>
     </aside>
@@ -431,7 +464,7 @@ footer{border-top:1px solid var(--line);margin-top:56px;padding-top:18px;font-si
       <text x="140" y="160" text-anchor="middle" class="lbl-s">combustion, ΔcU &lt; 0</text>
       <text x="140" y="180" text-anchor="middle" class="lbl-s">+ fuse wire, HNO₃</text>
       <path d="M232 156 H352" class="arrow-heat" marker-end="url(#ef-arh)"/>
-      <text x="292" y="146" text-anchor="middle" class="heat-t" font-size="13">heat q</text>
+      <text x="292" y="146" text-anchor="middle" class="heat-t" font-size="13">heat released</text>
       <text x="400" y="150" text-anchor="middle" class="lbl">T rises</text>
       <text x="400" y="170" text-anchor="middle" class="lbl">by ΔT</text>
       <path d="M600 104 H456" class="arrow" marker-end="url(#ef-ar)"/>
@@ -474,7 +507,7 @@ footer{border-top:1px solid var(--line);margin-top:56px;padding-top:18px;font-si
       <div class="field"><label for="calc-formula">Molecular formula (C, H, O, N)</label><input type="text" id="calc-formula" value="C7H6O2" autocomplete="off" spellcheck="false"></div>
       <div class="field"><label for="calc-lit">Literature Δ<sub>c</sub><i>H</i>° (kJ mol⁻¹, optional)</label><input type="text" id="calc-lit" value="-3228" inputmode="decimal" autocomplete="off"></div>
     </div>
-    <div class="calc-out" id="calc-out" aria-live="polite"></div>
+    <div class="calc-out" id="calc-out"></div>
   </div>
 
   <h3><span class="n">A.4</span>Enthalpy of formation by Hess's law</h3>
@@ -557,7 +590,8 @@ footer{border-top:1px solid var(--line);margin-top:56px;padding-top:18px;font-si
   <h3><span class="n">B.1</span>The calorimeter</h3>
   <div class="setup-grid setup">
     <figure class="panel" style="margin:0">
-      <svg class="diagram" id="setup-svg" viewBox="0 0 640 520" role="img" aria-labelledby="su-title su-desc">
+      <div class="scroll-x">
+      <svg class="diagram" id="setup-svg" viewBox="0 0 640 520" role="img" aria-labelledby="su-title su-desc" style="min-width:440px">
         <title id="su-title">Cross-section of an oxygen bomb calorimeter</title>
         <desc id="su-desc">Cut-away view showing the ignition unit and thermometer readout above an insulated jacket. Inside the jacket sits a bucket of water holding the steel bomb, with the stirrer and temperature probe beside it. Inside the bomb are two electrodes, a fuse wire touching the sample pellet in a capsule, oxygen, and a little water.</desc>
         <!-- ignition unit -->
@@ -608,6 +642,7 @@ footer{border-top:1px solid var(--line);margin-top:56px;padding-top:18px;font-si
         <!-- badges -->
         <g id="badge-layer"></g>
       </svg>
+      </div>
       <figcaption>Figure 3. Cut-away of a plain-jacket oxygen bomb calorimeter (schematic; proportions simplified). The bomb sits fully submerged in the bucket water.</figcaption>
     </figure>
     <div class="panel part-info" aria-live="polite">
@@ -615,6 +650,96 @@ footer{border-top:1px solid var(--line);margin-top:56px;padding-top:18px;font-si
       <ul class="part-list" id="part-list" aria-label="Calorimeter parts"></ul>
     </div>
   </div>
+
+  <figure class="panel heatflow setup" id="heatflow">
+    <div class="panel-title"><h4>Heat flow during a run</h4><span class="tag-int">Interactive</span></div>
+    <p class="muted small" style="max-width:72ch;margin-bottom:14px">Fire the bomb and watch where the energy goes. The naphthalene burns in under a second, releasing its heat inside the bomb (<b style="color:var(--heat)">orange</b>). Over the next few minutes (about 95 % of it within 3 minutes) that heat passes through the steel wall into the water (<b style="color:var(--transfer)">magenta</b>), and the thermometer climbs as it arrives. Heat exchange with the jacket is left out here; the explorer in A.5 shows it.</p>
+    <div class="hf-controls">
+      <div class="field"><div class="lab"><label for="hf-mass">Naphthalene mass:</label> <output id="hf-mass-o" for="hf-mass">0.75 g</output></div><input type="range" id="hf-mass" min="0.50" max="0.80" step="0.01" value="0.75"></div>
+      <div class="hf-btns"><button class="btn primary" type="button" id="hf-go">Ignite</button><button class="btn" type="button" id="hf-reset">Reset</button></div>
+      <div class="field"><div class="lab"><label for="hf-time">Time after firing:</label> <output id="hf-time-o" for="hf-time" aria-live="off">not fired</output></div><input type="range" id="hf-time" min="0" max="8" step="0.05" value="0"></div>
+    </div>
+    <div class="scroll-x">
+    <svg class="diagram" id="hf-svg" viewBox="0 0 640 360" role="img" aria-labelledby="hf-title hf-desc">
+      <title id="hf-title">Heat flow from burning naphthalene to the calorimeter water</title>
+      <desc id="hf-desc">A bomb sits in a bucket of water next to a thermometer. When fired, the bomb glows orange with the heat released. Magenta arrows carry the heat into the water, which takes on a magenta tint, and the thermometer column rises. The readouts below give the values.</desc>
+      <defs>
+        <radialGradient id="hf-wash" gradientUnits="userSpaceOnUse" cx="160" cy="215" r="230">
+          <stop offset="0" style="stop-color:var(--transfer);stop-opacity:.95"/>
+          <stop offset="1" style="stop-color:var(--transfer);stop-opacity:.3"/>
+        </radialGradient>
+        <radialGradient id="hf-flame-g">
+          <stop offset="0" style="stop-color:var(--heat-soft);stop-opacity:1"/>
+          <stop offset=".35" style="stop-color:var(--heat);stop-opacity:.95"/>
+          <stop offset="1" style="stop-color:var(--heat);stop-opacity:0"/>
+        </radialGradient>
+        <marker id="hf-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="mk-transfer"/></marker>
+      </defs>
+      <!-- bucket and water -->
+      <rect x="33" y="64" width="314" height="264" class="water"/>
+      <rect x="33" y="64" width="314" height="264" fill="url(#hf-wash)" id="hf-wash-rect" opacity="0"/>
+      <path d="M30 40 V331 H350 V40" class="bucket"/>
+      <text x="40" y="58" font-size="11" style="fill:var(--ink-2)">2000 g water</text>
+      <!-- bomb -->
+      <rect x="105" y="124" width="110" height="190" rx="14" class="steel"/>
+      <rect x="115" y="136" width="90" height="168" rx="8" class="gas"/>
+      <rect x="97" y="104" width="126" height="26" rx="4" class="steel-d"/>
+      <rect x="153" y="90" width="14" height="14" class="steel-d"/>
+      <rect x="147" y="84" width="26" height="7" rx="2" class="steel-d"/>
+      <g id="hf-glow" opacity="0">
+        <rect x="115" y="136" width="90" height="168" rx="8" class="hf-glow-in"/>
+        <rect x="108" y="127" width="104" height="184" rx="12" class="hf-glow-wall"/>
+      </g>
+      <path d="M135 130 V232" class="electrode"/>
+      <path d="M185 130 V254 H173" class="electrode"/>
+      <path d="M147 248 L150 264 H170 L173 248 Z" class="capsule"/>
+      <rect x="153" y="238" width="14" height="10" rx="2" class="pellet" id="hf-pellet"/>
+      <path d="M135 230 C 142 244, 151 242, 160 239 C 170 236, 178 233, 185 231" class="wire" id="hf-wire"/>
+      <g id="hf-flame" opacity="0"><circle cx="160" cy="238" r="34" fill="url(#hf-flame-g)"/></g>
+      <!-- heat-transfer arrows -->
+      <g class="hf-arrows" id="hf-arrows" opacity="0">
+        <path class="hf-arrow" marker-end="url(#hf-ar)" d="M101 168 q -7 -7 -14 0 t -14 0 t -14 0 t -14 0"/>
+        <path class="hf-arrow" marker-end="url(#hf-ar)" d="M101 222 q -7 -7 -14 0 t -14 0 t -14 0 t -14 0"/>
+        <path class="hf-arrow" marker-end="url(#hf-ar)" d="M101 276 q -7 -7 -14 0 t -14 0 t -14 0 t -14 0"/>
+        <path class="hf-arrow" marker-end="url(#hf-ar)" d="M219 168 q 7 -7 14 0 t 14 0 t 14 0"/>
+        <path class="hf-arrow" marker-end="url(#hf-ar)" d="M219 222 q 7 -7 14 0 t 14 0 t 14 0"/>
+        <path class="hf-arrow" marker-end="url(#hf-ar)" d="M219 276 q 7 -7 14 0 t 14 0 t 14 0"/>
+        <path class="hf-arrow" marker-end="url(#hf-ar)" d="M118 101 q -7 -6 0 -12 t 0 -12"/>
+        <path class="hf-arrow" marker-end="url(#hf-ar)" d="M202 101 q 7 -6 0 -12 t 0 -12"/>
+      </g>
+      <!-- thermometer -->
+      <rect x="296" y="18" width="16" height="292" rx="8" class="thermo-glass"/>
+      <circle cx="304" cy="312" r="13" class="thermo-glass"/>
+      <circle cx="304" cy="312" r="9" class="thermo-col"/>
+      <rect x="300" y="200" width="8" height="112" class="thermo-col" id="hf-col"/>
+      <g id="hf-scale"></g>
+      <text x="304" y="13" text-anchor="middle" class="thermo-lab">°C</text>
+      <!-- readout and key (hidden on phones, where the readouts below carry the same values) -->
+      <g id="hf-side">
+      <rect x="390" y="40" width="226" height="58" rx="6" class="lcd"/>
+      <text x="503" y="78" text-anchor="middle" class="lcd-t" id="hf-lcd" style="font-size:26px">23.500 °C</text>
+      <text x="390" y="124" class="time-t" id="hf-svg-time">Not fired yet</text>
+      <text x="390" y="150" class="phase-t" id="hf-phase">Ready to fire</text>
+      <rect x="390" y="190" width="14" height="14" rx="3" style="fill:var(--heat)"/>
+      <text x="412" y="202" class="key-t">Heat released in the bomb</text>
+      <rect x="390" y="220" width="14" height="14" rx="3" style="fill:var(--transfer)"/>
+      <text x="412" y="232" class="key-t">Heat moving into the water</text>
+      <rect x="390" y="250" width="14" height="14" rx="3" style="fill:var(--accent)"/>
+      <text x="412" y="262" class="key-t">Thermometer reading</text>
+      <text x="390" y="306" class="time-t">C</text><text x="398" y="310" style="font-size:9px;fill:var(--ink-2)">cal</text><text x="414" y="306" class="time-t">= 10.15 kJ K⁻¹</text>
+      </g>
+    </svg>
+    </div>
+    <div class="kv" style="margin-top:14px">
+      <div><div class="k">Heat released, <i>q</i><sub>rel</sub> = −<i>m</i>Δ<sub>c</sub><i>u</i></div><div class="v heat" id="hf-q">—</div></div>
+      <div><div class="k">Transferred to water and calorimeter</div><div class="v tr" id="hf-tr">—</div></div>
+      <div><div class="k">Water temperature (ΔT)</div><div class="v acc" id="hf-T">—</div></div>
+    </div>
+    <div class="hf-bar" role="img" id="hf-bar" aria-label="Share of heat transferred"><span class="b-r" id="hf-bar-r" style="width:0%"></span><span class="b-t" id="hf-bar-t" style="width:0%"></span></div>
+    <div class="legend hf-legend"><span><i class="sw heat"></i>Still in the bomb</span><span><i class="sw tr"></i>Transferred to the water</span></div>
+    <p class="small" id="hf-live" aria-live="polite">Press Ignite to fire the bomb. When all the heat has reached the water, <i>q</i><sub>rel</sub> = <i>C</i><sub>cal</sub>Δ<i>T</i> (eq. 2).</p>
+    <figcaption>Figure 4. Simulated heat flow for one naphthalene run. The thermometer is drawn as a liquid-in-glass type for clarity; the lab uses a thermistor that reads to 0.001 K.</figcaption>
+  </figure>
 
   <h3><span class="n">B.2</span>Equipment and reagents</h3>
   <div class="tbl-wrap">
@@ -714,10 +839,10 @@ footer{border-top:1px solid var(--line);margin-top:56px;padding-top:18px;font-si
       <div class="field"><label for="ws-name">Sample name</label><input type="text" id="ws-name" autocomplete="off"></div>
       <div class="field"><label for="ws-formula">Formula</label><input type="text" id="ws-formula" autocomplete="off" spellcheck="false"><span class="hint" id="ws-formula-h"></span></div>
       <div class="field"><label for="ws-lit">Literature Δ<sub>c</sub><i>H</i>° (kJ mol⁻¹)</label><input type="text" id="ws-lit" inputmode="decimal" autocomplete="off"></div>
-      <div class="field"><label for="ws-baJ">Benzoic acid |Δ<sub>c</sub><i>u</i>| (J g⁻¹)</label><input type="number" id="ws-baJ" step="any"></div>
-      <div class="field"><label for="ws-wireJ">Fuse wire energy (J cm⁻¹)</label><input type="number" id="ws-wireJ" step="any"></div>
-      <div class="field"><label for="ws-acidJ">Acid correction (J per mL titrant)</label><input type="number" id="ws-acidJ" step="any"></div>
-      <div class="field"><label for="ws-T">Temperature for Δ<i>n</i><sub>g</sub><i>RT</i> (K)</label><input type="number" id="ws-T" step="any"></div>
+      <div class="field"><label for="ws-baJ">Benzoic acid |Δ<sub>c</sub><i>u</i>| (J g⁻¹)</label><input type="text" inputmode="decimal" autocomplete="off" id="ws-baJ"></div>
+      <div class="field"><label for="ws-wireJ">Fuse wire energy (J cm⁻¹)</label><input type="text" inputmode="decimal" autocomplete="off" id="ws-wireJ"></div>
+      <div class="field"><label for="ws-acidJ">Acid correction (J per mL titrant)</label><input type="text" inputmode="decimal" autocomplete="off" id="ws-acidJ"></div>
+      <div class="field"><label for="ws-T">Temperature for Δ<i>n</i><sub>g</sub><i>RT</i> (K)</label><input type="text" inputmode="decimal" autocomplete="off" id="ws-T"></div>
     </div>
   </div>
 
@@ -726,15 +851,15 @@ footer{border-top:1px solid var(--line);margin-top:56px;padding-top:18px;font-si
   <div class="panel run-panel" role="tabpanel" id="ws-panel">
     <div class="run-grid">
       <div class="run-inputs">
-        <div class="field"><label for="ws-mass">Pellet mass, <i>m</i> (g)</label><input type="number" id="ws-mass" step="0.0001" min="0"></div>
+        <div class="field"><label for="ws-mass">Pellet mass, <i>m</i> (g)</label><input type="text" inputmode="decimal" autocomplete="off" id="ws-mass"></div>
         <div class="pair">
-          <div class="field"><label for="ws-wire0">Wire installed (cm)</label><input type="number" id="ws-wire0" step="0.1" min="0"></div>
-          <div class="field"><label for="ws-wire1">Wire unburned (cm)</label><input type="number" id="ws-wire1" step="0.1" min="0"></div>
+          <div class="field"><label for="ws-wire0">Wire installed (cm)</label><input type="text" inputmode="decimal" autocomplete="off" id="ws-wire0"></div>
+          <div class="field"><label for="ws-wire1">Wire unburned (cm)</label><input type="text" inputmode="decimal" autocomplete="off" id="ws-wire1"></div>
         </div>
-        <div class="field"><label for="ws-acid">Na₂CO₃ titrant (mL)</label><input type="number" id="ws-acid" step="0.1" min="0"></div>
+        <div class="field"><label for="ws-acid">Na₂CO₃ titrant (mL)</label><input type="text" inputmode="decimal" autocomplete="off" id="ws-acid"></div>
         <div class="pair">
-          <div class="field"><label for="ws-tig">Firing time (min)</label><input type="number" id="ws-tig" step="0.5" min="0"></div>
-          <div class="field"><label for="ws-tpost">Post-period starts (min)</label><input type="number" id="ws-tpost" step="0.5" min="0"></div>
+          <div class="field"><label for="ws-tig">Firing time (min)</label><input type="text" inputmode="decimal" autocomplete="off" id="ws-tig"></div>
+          <div class="field"><label for="ws-tpost">Post-period starts (min)</label><input type="text" inputmode="decimal" autocomplete="off" id="ws-tpost"></div>
         </div>
         <div class="field"><label for="ws-data">Temperature readings: time (min), T (°C)</label>
           <textarea id="ws-data" spellcheck="false" placeholder="0.0  23.512&#10;0.5  23.514&#10;1.0  23.515&#10;…"></textarea>
@@ -814,7 +939,7 @@ footer{border-top:1px solid var(--line);margin-top:56px;padding-top:18px;font-si
     <li id="ref-11">Cox, J. D.; Wagman, D. D.; Medvedev, V. A. <i>CODATA Key Values for Thermodynamics</i>; Hemisphere: New York, 1989.</li>
     <li id="ref-12">Parr Instrument Company. <i>Operating Instruction Manual: 1108 Oxygen Combustion Vessel</i>; Manual No. 205M; Parr Instrument Company: Moline, IL.</li>
   </ol>
-  <footer>Literature combustion enthalpies used in this module (kJ mol<sup>−1</sup>, solids at 298.15 K) are taken from the NIST Chemistry WebBook:<a class="cite" href="#ref-6">6</a> benzoic acid −3228 ± 4 and naphthalene −5160 ± 20 (averages of many determinations), and sucrose −5643.4 ± 1.8 (Ponomarev and Migarskaya, 1960, as reanalyzed by Cox and Pilcher). If your course uses a different data table, enter its value in the worksheet. The thermograms in the explorer and the example worksheet data are simulated, not measured.</footer>
+  <footer>Literature combustion enthalpies used in this module (kJ mol<sup>−1</sup>, solids at 298.15 K) are taken from the NIST Chemistry WebBook:<a class="cite" href="#ref-6">6</a> benzoic acid −3228 ± 4 and naphthalene −5160 ± 20 (averages of many determinations), and sucrose −5643.4 ± 1.8 (Ponomarev and Migarskaya, 1960, as reanalyzed by Cox and Pilcher and listed in the NIST WebBook). If your course uses a different data table, enter its value in the worksheet. The thermograms in the explorer and the example worksheet data are simulated, not measured.</footer>
 </section>
 
   </main>
@@ -879,6 +1004,11 @@ function equationHTML(p){
 
 /* ---------- simulation & analysis ---------- */
 function mulberry32(a){ return function(){ a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+// Heat from the burning sample reaches the water through the bomb wall with two time constants (min).
+// riseRate is the fraction of the heat arriving per minute; riseFraction is the fraction arrived so far.
+const TAU1 = 0.9, TAU2 = 0.3;
+function riseRate(s){ return s <= 0 ? 0 : (Math.exp(-s/TAU1) - Math.exp(-s/TAU2)) / (TAU1 - TAU2); }
+function riseFraction(s){ return s <= 0 ? 0 : 1 - (TAU1*Math.exp(-s/TAU1) - TAU2*Math.exp(-s/TAU2)) / (TAU1 - TAU2); }
 function simulate(o){
   const dt = 0.005, out = [], rnd = mulberry32(o.seed || 1);
   const fp = s => s <= 0 ? 0 : (Math.exp(-s/o.tau1) - Math.exp(-s/o.tau2)) / (o.tau1 - o.tau2);
@@ -903,9 +1033,11 @@ function parseData(text){
     // Columns are separated by tabs, semicolons or spaces; commas then count as decimal marks (0,5 → 0.5).
     // A line with commas only (e.g. "0.5,23.512") treats the comma as the separator.
     const u = t.replace(/−/g,'-');
-    let parts = /[\t; ]/.test(u.replace(/,\s+/g, ',')) ? u.replace(/,\s+/g, ' ').split(/[\t; ]+/) : u.split(',');
+    const spaced = /[\t; ]/.test(u.replace(/,\s+/g, ','));
+    let parts = spaced ? u.replace(/,\s+/g, ' ').split(/[\t; ]+/) : u.split(',');
     parts = parts.filter(Boolean).map(p => p.replace(',', '.'));
-    if(parts.length < 2){ bad++; continue; }
+    // Comma-only lines must have exactly two fields; "0,5, 23,512" is ambiguous, so it is skipped and counted.
+    if(parts.length < 2 || (!spaced && parts.length !== 2)){ bad++; continue; }
     const x = Number(parts[0]), y = Number(parts[1]);
     if(isFinite(x) && isFinite(y)) pts.push([x,y]); else bad++;
   }
@@ -945,7 +1077,7 @@ function niceTicks(min, max, n){
 function plotThermo(svg, res, id){
   const W=640, H=330, L=62, Rr=16, Tt=16, B=46;
   if(!res || res.error){
-    svg.innerHTML = '<rect x="1" y="1" width="638" height="328" rx="8" fill="none" stroke="var(--line)" stroke-dasharray="5 4"/><text x="320" y="160" text-anchor="middle" style="font-size:14px">' + esc(res && res.error ? res.error : 'Enter temperature readings to draw the thermogram.') + '</text><text x="320" y="184" text-anchor="middle">The plot appears once there are enough readings.</text>';
+    svg.innerHTML = '<rect x="1" y="1" width="638" height="328" rx="8" fill="none" stroke="var(--line)" stroke-dasharray="5 4"/><text x="320" y="160" text-anchor="middle" style="font-size:14px">' + esc(res && res.error ? res.error : 'Enter temperature readings to draw the thermogram.') + '</text>' + (res && res.error ? '' : '<text x="320" y="184" text-anchor="middle">The plot appears once there are enough readings.</text>');
     return;
   }
   const p = res.pts, ts = p.map(q => q[0]), ys = p.map(q => q[1]);
@@ -1003,7 +1135,8 @@ function plotThermo(svg, res, id){
            '<div><div class="k">Δ<sub>f</sub>H° by Hess\'s law (eq. 7)</div><div class="v">' + fmtS(p.co2*DFH.CO2 + p.h2o*DFH.H2O - lit,1) + ' kJ mol⁻¹</div></div>';
     }
     h += '</div>';
-    if(isFinite(lit)) h += '<p class="muted small">Tabulated Δ<sub>c</sub>H° values refer to standard states. A bomb measures under bomb conditions, which differ by the small Washburn correction (about 0.01–0.1 %). For benzoic acid this is why the expected value shown differs slightly from the certified 26.434 kJ g⁻¹.</p>';
+    if(isFinite(lit)) h += '<p class="muted small">Tabulated Δ<sub>c</sub>H° values refer to standard states. A bomb measures under bomb conditions, which differ by the small Washburn correction (about 0.01–0.1 %).</p>';
+    if(isFinite(lit) && fIn.value.replace(/\s+/g,'') === 'C7H6O2') h += '<p class="muted small">This is why the expected Δ<sub>c</sub>u shown for benzoic acid differs slightly from the certified bomb-condition value, −26.434 kJ g⁻¹.</p>';
     if(p.c.N) h += '<p class="muted small">Nitrogen is assumed to leave as N<sub>2</sub>(g). In a real bomb a little ends as HNO<sub>3</sub>; that is what the acid correction covers.</p>';
     out.innerHTML = h;
   }
@@ -1027,7 +1160,7 @@ function specificU(key){
     $('#ex-k-o').textContent = k.toFixed(4) + ' min⁻¹';
     const du = specificU(els.c.value), dTad = -m*du/CEX, qkJ = -m*du/1000, over = qkJ > 33.47;
     const mh = $('#ex-mass-h'); mh.textContent = 'Releases ' + qkJ.toFixed(1) + ' kJ' + (over ? '. Above the 8000 cal (33 kJ) limit of a Parr 1108 bomb: never burn this much in the lab.' : ''); mh.style.color = over ? 'var(--bad)' : '';
-    const pts = simulate({T0:23.5, Tj:23.5 + off, k, P:0.0008, dTad, tig:5, tend:20, dtRead:0.5, tau1:0.9, tau2:0.3, noise:0, seed:1});
+    const pts = simulate({T0:23.5, Tj:23.5 + off, k, P:0.0008, dTad, tig:5, tend:20, dtRead:0.5, tau1:TAU1, tau2:TAU2, noise:0, seed:1});
     const res = analyze(pts, 5, 12);
     plotThermo($('#ex-plot'), res, 'ex');
     if(res.error){ $('#ex-stats').innerHTML = '<p class="err">' + esc(res.error) + '</p>'; return; }
@@ -1079,6 +1212,88 @@ const PARTS = [
   select(active);
 })();
 
+/* ---------- B.1 heat-flow animation ---------- */
+(function(){
+  const T0 = 23.5, SMAX = 8, SPEED = SMAX/10;            // 8 simulated minutes in 10 s of real time
+  const Ylo = 285, Yhi = 45, Tlo = 23.0, Thi = 27.5;       // thermometer scale: 23.0 °C at y 285, 27.5 °C at y 45
+  const Y = T => Ylo - (T - Tlo)/(Thi - Tlo)*(Ylo - Yhi);
+  const BULB = 312;
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // On narrow screens show only the bucket and thermometer, so the drawing stays legible.
+  const narrow = window.matchMedia ? window.matchMedia('(max-width: 600px)') : null;
+  function fit(){ const n = narrow && narrow.matches; document.getElementById('hf-svg').setAttribute('viewBox', n ? '18 0 342 360' : '0 0 640 360'); document.getElementById('hf-side').style.display = n ? 'none' : ''; }
+  if(narrow){ fit(); (narrow.addEventListener ? narrow.addEventListener('change', fit) : narrow.addListener(fit)); }
+  let peak = 0; for(let s = 0; s < 3; s += 0.01) peak = Math.max(peak, riseRate(s));
+  const el = id => document.getElementById(id);
+  const mass = el('hf-mass'), go = el('hf-go'), reset = el('hf-reset'), time = el('hf-time');
+  let fired = false, s = 0, playing = false, raf = 0, last = 0;
+
+  // thermometer scale
+  let sc = '';
+  for(let i = 0; i <= 45; i++){
+    const T = Tlo + i/10, y = Y(T).toFixed(1), major = i % 5 === 0;
+    sc += '<line class="thermo-tick" x1="' + (major ? 284 : 289) + '" x2="294" y1="' + y + '" y2="' + y + '"/>';
+    if(i % 10 === 0) sc += '<text class="thermo-lab" x="281" y="' + y + '" text-anchor="end" dominant-baseline="middle">' + T.toFixed(0) + '</text>';
+  }
+  el('hf-scale').innerHTML = sc;
+
+  function energy(){ const m = +mass.value, q = -m*specificU('naph'); return {m, q, dT: q/CEX}; }
+  function phase(){
+    if(!fired) return 'Ready to fire';
+    if(s < 0.15) return 'Combustion: heat released';
+    if(riseFraction(s) < 0.995) return 'Heat flowing into the water';
+    return 'Transfer complete';
+  }
+  function draw(){
+    const E = energy(), f = !fired ? 0 : s >= SMAX ? 1 : riseFraction(s), rate = fired ? riseRate(s)/peak : 0, T = T0 + E.dT*f;
+    el('hf-mass-o').textContent = E.m.toFixed(2) + ' g';
+    el('hf-glow').setAttribute('opacity', fired ? (1 - f).toFixed(3) : 0);
+    el('hf-flame').setAttribute('opacity', fired && s < 0.3 ? (1 - s/0.3).toFixed(3) : 0);
+    el('hf-pellet').style.display = fired ? 'none' : '';
+    el('hf-wire').style.display = fired ? 'none' : '';
+    const arrows = el('hf-arrows');
+    arrows.setAttribute('opacity', fired ? Math.min(1, rate*1.15).toFixed(3) : 0);
+    arrows.classList.toggle('flowing', playing && rate > 0.05);
+    el('hf-wash-rect').setAttribute('opacity', (0.42*f).toFixed(3));
+    const yTop = Y(T); const col = el('hf-col'); col.setAttribute('y', yTop.toFixed(2)); col.setAttribute('height', (BULB - yTop).toFixed(2));
+    el('hf-lcd').textContent = T.toFixed(3) + ' °C';
+    el('hf-svg-time').textContent = fired ? s.toFixed(2) + ' min after firing' : 'Not fired yet';
+    el('hf-phase').textContent = phase();
+    el('hf-time-o').textContent = fired ? s.toFixed(2) + ' min' : 'not fired';
+    if(document.activeElement !== time) time.value = fired ? s : 0;
+    el('hf-q').textContent = fmt(E.q/1000, 2) + ' kJ';
+    el('hf-tr').textContent = fmt(E.q*f/1000, 2) + ' kJ (' + fmt(f*100, 0) + ' %)';
+    el('hf-T').textContent = T.toFixed(3) + ' °C (' + fmtS(E.dT*f, 3) + ' K)';
+    el('hf-bar-r').style.width = (fired ? (1 - f)*100 : 0) + '%';
+    el('hf-bar-t').style.width = (f*100) + '%';
+    el('hf-bar').setAttribute('aria-label', fired ? fmt(f*100,0) + ' percent of the heat transferred to the water' : 'Not fired yet');
+    go.textContent = playing ? 'Pause' : !fired ? 'Ignite' : s >= SMAX ? 'Replay' : 'Resume';
+  }
+  function say(t){ el('hf-live').innerHTML = t; }
+  function done(){
+    const E = energy();
+    say('Transfer complete: ' + fmt(E.q/1000,1) + ' kJ raised the water from ' + T0.toFixed(3) + ' to ' + (T0 + E.dT).toFixed(3) + ' °C, a rise of ' + fmt(E.dT,3) + ' K. So <i>q</i><sub>rel</sub> = <i>C</i><sub>cal</sub>Δ<i>T</i> = 10.15 kJ K⁻¹ × ' + fmt(E.dT,3) + ' K (eq. 2).');
+  }
+  function stop(){ playing = false; cancelAnimationFrame(raf); }
+  function tick(now){
+    s = Math.min(SMAX, s + Math.max(0, now - last)/1000*SPEED); last = Math.max(last, now);
+    if(s >= SMAX){ stop(); draw(); done(); return; }
+    draw(); raf = requestAnimationFrame(tick);
+  }
+  function play(){ playing = true; last = performance.now(); raf = requestAnimationFrame(tick); }
+  go.addEventListener('click', () => {
+    if(playing){ stop(); draw(); say('Paused at ' + s.toFixed(2) + ' min: ' + fmt(riseFraction(s)*100,0) + ' % of the heat has reached the water.'); return; }
+    if(!fired || s >= SMAX){ fired = true; s = 0; say('Fired. The naphthalene burns and releases ' + fmt(energy().q/1000,1) + ' kJ inside the bomb.'); }
+    if(reduce){ s = SMAX; draw(); done(); return; }
+    play(); draw();
+  });
+  reset.addEventListener('click', () => { stop(); fired = false; s = 0; draw(); say('Press Ignite to fire the bomb. When all the heat has reached the water, <i>q</i><sub>rel</sub> = <i>C</i><sub>cal</sub>Δ<i>T</i> (eq. 2).'); });
+  mass.addEventListener('input', () => { stop(); fired = false; s = 0; draw(); });
+  time.addEventListener('input', () => { stop(); fired = true; s = +time.value; draw(); });
+  time.addEventListener('change', () => { if(s >= SMAX) done(); else say('At ' + s.toFixed(2) + ' min, ' + fmt(riseFraction(s)*100,0) + ' % of the heat has reached the water.'); });
+  draw();
+})();
+
 /* ---------- C worksheet ---------- */
 const WS_KEY = 'bombcal.worksheet.v1';
 const EX_RUNS = [
@@ -1093,16 +1308,35 @@ function exampleState(){
   const du = specificU('naph');
   const runs = EX_RUNS.map((r,i) => {
     const eW = (10 - r.left)*9.6, eA = r.acid*4.184, q = KINDS[i] === 'cal' ? r.mass*26434 : -r.mass*du;
-    const pts = simulate({T0:r.T0, Tj:r.Tj, k:0.0025, P:0.0008, dTad:(q + eW + eA)/(CEX*r.cf), tig:5, tend:20, dtRead:0.5, tau1:0.9, tau2:0.3, noise:0.0006, seed:r.seed});
-    return {mass:r.mass.toFixed(4), wire0:'10.0', wire1:r.left.toFixed(1), acid:r.acid.toFixed(1), tig:'5.0', tpost:'12.0', data: pts.map(p => p[0].toFixed(1) + '\t' + p[1].toFixed(3)).join('\n')};
+    const pts = simulate({T0:r.T0, Tj:r.Tj, k:0.0025, P:0.0008, dTad:(q + eW + eA)/(CEX*r.cf), tig:5, tend:20, dtRead:0.5, tau1:TAU1, tau2:TAU2, noise:0.0006, seed:r.seed});
+    return {mass:r.mass.toFixed(4), wire0:'10.0', wire1:r.left.toFixed(1), acid:r.acid.toFixed(1), tig:'5.0', tpost:'12.0', data: pts.map(p => p[0].toFixed(1) + '\t' + p[1].toFixed(3)).join('\n'), ex:true};
   });
-  return {example:true, settings:defaultSettings(), runs, active:0};
+  return {settings:defaultSettings(), runs, active:0};
 }
 function emptyRun(){ return {mass:'', wire0:'10.0', wire1:'', acid:'', tig:'5.0', tpost:'12.0', data:''}; }
-let WS = store.get(WS_KEY);
-if(!WS || !WS.runs || WS.runs.length !== 4 || !WS.settings) WS = exampleState();
+// Load saved work, repairing anything missing or malformed instead of failing on it.
+function loadWS(){
+  try{
+    const w = store.get(WS_KEY);
+    if(!w || typeof w !== 'object' || !Array.isArray(w.runs) || w.runs.length !== 4 || !w.settings || typeof w.settings !== 'object') return exampleState();
+    const def = defaultSettings(), settings = {};
+    for(const k of Object.keys(def)) settings[k] = w.settings[k] == null ? def[k] : String(w.settings[k]);
+    const runs = w.runs.map(r => {
+      const base = emptyRun(), o = {};
+      if(!r || typeof r !== 'object') return base;
+      for(const k of Object.keys(base)) o[k] = r[k] == null ? base[k] : String(r[k]);
+      o.ex = 'ex' in r ? !!r.ex : !!w.example;   // older saves kept one page-wide flag
+      return o;
+    });
+    const active = Number.isInteger(w.active) && w.active >= 0 && w.active < 4 ? w.active : 0;
+    return {settings, runs, active};
+  }catch(e){ return exampleState(); }
+}
+let WS = loadWS();
+const exampleRuns = () => WS.runs.map((r,i) => r.ex ? i+1 : 0).filter(Boolean);
 let saveTimer = null;
 function save(){ clearTimeout(saveTimer); saveTimer = setTimeout(() => store.set(WS_KEY, WS), 250); }
+window.addEventListener('pagehide', () => { clearTimeout(saveTimer); store.set(WS_KEY, WS); });
 
 const S_FIELDS = {name:'#ws-name', formula:'#ws-formula', lit:'#ws-lit', baJ:'#ws-baJ', wireJ:'#ws-wireJ', acidJ:'#ws-acidJ', T:'#ws-T'};
 const R_FIELDS = {mass:'#ws-mass', wire0:'#ws-wire0', wire1:'#ws-wire1', acid:'#ws-acid', tig:'#ws-tig', tpost:'#ws-tpost', data:'#ws-data'};
@@ -1115,7 +1349,7 @@ function computeAll(){
     const burned = num(r.wire0) - num(r.wire1), eW = burned*wireJ, eA = num(r.acid)*acidJ;
     const out = {i, kind, mass, burned, eW, eA, nPts:parsed.pts.length, bad:parsed.bad};
     out.res = parsed.pts.length ? analyze(parsed.pts, num(r.tig), num(r.tpost)) : {error:'No temperature readings entered yet.'};
-    out.missing = !(mass > 0) ? 'enter the pellet mass' : !(isFinite(burned) && burned >= 0) ? 'check the wire lengths' : !isFinite(eA) ? 'enter the titrant volume (0 if none)' : !(isFinite(wireJ) && isFinite(acidJ)) ? 'check the constants in C.1' : '';
+    out.missing = !(mass > 0) ? 'enter the pellet mass' : !(isFinite(burned) && burned >= 0) ? 'check the wire lengths' : !isFinite(eA) ? 'enter the titrant volume (0 if none)' : !(isFinite(wireJ) && isFinite(acidJ)) ? 'check the constants in C.1' : (kind === 'cal' && !(baJ > 0)) ? 'enter the benzoic acid energy in C.1' : '';
     out.ok = !out.res.error && !out.missing;
     if(out.ok && kind === 'cal') out.C = (mass*baJ + eW + eA)/out.res.dT;
     return out;
@@ -1144,8 +1378,11 @@ function computeAll(){
 
 function setStatus(){
   const st = $('#ws-status');
-  st.classList.toggle('own', !WS.example);
-  $('#ws-status-t').textContent = WS.example ? 'Example data is loaded (simulated naphthalene runs). Replace it with your own readings.' : 'Your entries are saved in this browser as you type.';
+  const ex = exampleRuns();
+  st.classList.toggle('own', !ex.length);
+  $('#ws-status-t').textContent = ex.length === 4 ? 'Example data is loaded (simulated naphthalene runs). Replace it with your own readings.'
+    : ex.length ? 'Run' + (ex.length > 1 ? 's ' : ' ') + ex.join(', ') + ' still contain' + (ex.length > 1 ? '' : 's') + ' simulated example readings. Replace them with your own. Your entries are saved in this browser.'
+    : 'Your entries are saved in this browser as you type.';
 }
 function fillSettings(){ for(const [k,sel] of Object.entries(S_FIELDS)) $(sel).value = WS.settings[k] ?? ''; $('#ws-preset').value = PRESETS[WS.settings.preset] ? WS.settings.preset : 'custom'; }
 function fillRun(){ const r = WS.runs[WS.active]; for(const [k,sel] of Object.entries(R_FIELDS)) $(sel).value = r[k] ?? ''; }
@@ -1155,7 +1392,7 @@ function renderTabs(){
   WS.runs.forEach((r,i) => {
     const b = document.createElement('button'); b.type = 'button'; b.className = 'tab'; b.setAttribute('role','tab'); b.id = 'ws-tab-' + i;
     b.setAttribute('aria-selected', String(i === WS.active)); b.setAttribute('aria-controls','ws-panel'); b.tabIndex = i === WS.active ? 0 : -1;
-    b.innerHTML = 'Run ' + (i+1) + ' <span class="k ' + (KINDS[i] === 'cal' ? 'cal">Calibration' : 'smp">Sample') + '</span>';
+    b.innerHTML = 'Run ' + (i+1) + ' <span class="k ' + (KINDS[i] === 'cal' ? 'cal"><span class="lg">Calibration</span><span class="sh">Cal</span>' : 'smp">Sample') + '</span>';
     b.addEventListener('click', () => selectTab(i));
     b.addEventListener('keydown', e => {
       const n = WS.runs.length, k = e.key;
@@ -1169,7 +1406,7 @@ function renderTabs(){
 function renderAll(){
   const A = computeAll(); LAST = A;
   const fh = $('#ws-formula-h');
-  fh.textContent = A.f.error ? A.f.error : 'M = ' + fmt(A.f.M,3) + ' g mol⁻¹, Δn_g = ' + fmtS(A.f.dn,2) + ' mol';
+  fh.innerHTML = A.f.error ? esc(A.f.error) : 'M = ' + fmt(A.f.M,3) + ' g mol⁻¹, Δ<i>n</i><sub>g</sub> = ' + fmtS(A.f.dn,2) + ' mol';
   fh.style.color = A.f.error ? 'var(--bad)' : '';
   // active run
   const r = A.runs[WS.active];
@@ -1200,7 +1437,7 @@ function renderAll(){
     '<div class="result"><div class="k">Calorimeter constant, mean</div><div class="v">' + fmt(A.Cmean/1000,4) + ' <span class="u">kJ K⁻¹</span></div><div class="sub">' + (isFinite(A.Csd) ? 's = ' + fmt(A.Csd,1) + ' J K⁻¹ (' + fmt(A.Csd/A.Cmean*100,2) + ' %), n = ' + A.Cs.length : 'n = ' + A.Cs.length) + '</div></div>' +
     '<div class="result"><div class="k">Δ<sub>c</sub><i>u</i>, ' + nm + '</div><div class="v">' + fmt(A.duMean/1000,3) + ' <span class="u">kJ g⁻¹</span></div><div class="sub">' + (isFinite(A.duSd) ? 's = ' + fmt(A.duSd/1000,3) + ' kJ g⁻¹, n = ' + A.dus.length : 'n = ' + A.dus.length) + '</div></div>' +
     '<div class="result"><div class="k">Δ<sub>c</sub><i>U</i><sub>m</sub> (eq. 5)</div><div class="v">' + fmt(A.Um,1) + ' <span class="u">kJ mol⁻¹</span></div><div class="sub">M = ' + (A.f.error ? '—' : fmt(A.f.M,3)) + ' g mol⁻¹</div></div>' +
-    '<div class="result key"><div class="k">Δ<sub>c</sub><i>H</i><sub>m</sub> (eq. 6)</div><div class="v">' + fmt(A.Hm,1) + ' <span class="u">kJ mol⁻¹</span></div><div class="sub">' + (isFinite(A.diff) ? fmtS(A.diff,2) + ' % vs literature ' + fmt(A.lit,1) : 'Enter a literature value to compare') + '</div></div>' +
+    '<div class="result key"><div class="k">Δ<sub>c</sub><i>H</i><sub>m</sub> (eq. 6)</div><div class="v">' + fmt(A.Hm,1) + ' <span class="u">kJ mol⁻¹</span></div><div class="sub">' + (!(A.T > 0) ? 'Enter the temperature for Δ<i>n</i><sub>g</sub><i>RT</i> in C.1' : isFinite(A.diff) ? fmtS(A.diff,2) + ' % vs literature ' + fmt(A.lit,1) : isFinite(A.lit) && A.lit !== 0 ? 'Literature value ' + fmt(A.lit,1) : 'Enter a literature value to compare') + '</div></div>' +
     '<div class="result"><div class="k">Δ<sub>f</sub><i>H</i>° (eq. 7)</div><div class="v">' + fmtS(A.Hf,1) + ' <span class="u">kJ mol⁻¹</span></div><div class="sub">from CO₂(g) and H₂O(l)</div></div>';
   // budget
   const b = A.budget, bud = $('#ws-budget');
@@ -1213,14 +1450,15 @@ function renderAll(){
   setStatus();
   renderLive(A);
 }
-function onSetting(k, v){ WS.settings[k] = v; WS.example = false; save(); renderAll(); }
+function onSetting(k, v){ WS.settings[k] = v; save(); renderAll(); }
 for(const [k,sel] of Object.entries(S_FIELDS)) $(sel).addEventListener('input', e => { if(k === 'formula' || k === 'lit' || k === 'name'){ WS.settings.preset = 'custom'; $('#ws-preset').value = 'custom'; } onSetting(k, e.target.value); });
 $('#ws-preset').addEventListener('change', e => {
   const p = PRESETS[e.target.value]; WS.settings.preset = e.target.value;
   if(p){ WS.settings.name = p.name; WS.settings.formula = p.formula; WS.settings.lit = String(p.litH); fillSettings(); }
-  WS.example = false; save(); renderAll();
+  save(); renderAll();
 });
-for(const [k,sel] of Object.entries(R_FIELDS)) $(sel).addEventListener('input', e => { WS.runs[WS.active][k] = e.target.value; WS.example = false; save(); renderAll(); });
+// A run stops counting as example data once its temperature readings are replaced.
+for(const [k,sel] of Object.entries(R_FIELDS)) $(sel).addEventListener('input', e => { const r = WS.runs[WS.active]; r[k] = e.target.value; if(k === 'data') r.ex = false; save(); renderAll(); });
 
 function armed(btn, label, action){
   let t = null; const orig = btn.textContent;
@@ -1231,15 +1469,16 @@ function armed(btn, label, action){
   });
 }
 armed($('#ws-example'), 'Replace all entries? Click again', () => { WS = exampleState(); store.set(WS_KEY, WS); fillSettings(); renderTabs(); fillRun(); renderAll(); });
-armed($('#ws-clear'), 'Erase all runs? Click again', () => { WS = {example:false, settings:WS.settings, runs:[0,1,2,3].map(emptyRun), active:0}; store.set(WS_KEY, WS); renderTabs(); fillRun(); renderAll(); });
+armed($('#ws-clear'), 'Erase all runs? Click again', () => { WS = {settings:WS.settings, runs:[0,1,2,3].map(emptyRun), active:0}; store.set(WS_KEY, WS); renderTabs(); fillRun(); renderAll(); });
 
 function resultsText(A){
   const L = [];
-  L.push('Bomb calorimetry results' + (WS.example ? ' (EXAMPLE DATA)' : ''));
+  const ex = exampleRuns();
+  L.push('Bomb calorimetry results' + (ex.length === 4 ? ' (EXAMPLE DATA)' : ex.length ? ' (runs ' + ex.join(', ') + ' are SIMULATED EXAMPLE DATA)' : ''));
   L.push('Sample: ' + A.name + ' (' + WS.settings.formula + ')');
   A.runs.forEach(q => {
     const res = q.res.error ? null : q.res;
-    L.push('Run ' + (q.i+1) + ' [' + (q.kind === 'cal' ? 'calibration' : 'sample') + ']: m = ' + fmt(q.mass,4) + ' g, dT(corr) = ' + (res ? fmt(res.dT,4) : '-') + ' K, e_wire = ' + fmt(q.eW,1) + ' J, e_acid = ' + fmt(q.eA,1) + ' J, ' + (q.kind === 'cal' ? 'C_cal = ' + fmt(q.C/1000,4) + ' kJ/K' : 'dcu = ' + fmt(q.du/1000,3) + ' kJ/g'));
+    L.push('Run ' + (q.i+1) + ' [' + (q.kind === 'cal' ? 'calibration' : 'sample') + ']: m = ' + fmt(q.mass,4) + ' g, dT(corr) = ' + (res ? fmt(res.dT,4) : '-') + ' K, e_wire = ' + fmt(q.eW,1) + ' J, e_acid = ' + fmt(q.eA,1) + ' J, ' + (q.kind === 'cal' ? 'C_cal = ' + fmt(q.C/1000,4) + ' kJ/K' : 'dcu = ' + fmt(q.du/1000,3) + ' kJ/g') + (WS.runs[q.i].ex ? ' [example data]' : ''));
   });
   L.push('Mean C_cal = ' + fmt(A.Cmean/1000,4) + ' kJ/K' + (isFinite(A.Csd) ? ' (s = ' + fmt(A.Csd,1) + ' J/K)' : ''));
   L.push('Mean dcu = ' + fmt(A.duMean/1000,3) + ' kJ/g');
@@ -1258,7 +1497,8 @@ $('#ws-copy').addEventListener('click', () => {
 /* ---------- live values for post-lab ---------- */
 function renderLive(A){
   const set = (k, html) => { for(const el of $$('[data-live="' + k + '"]')) el.innerHTML = html; };
-  const tag = WS.example ? ' <span class="muted">(example data)</span>' : '';
+  const exN = exampleRuns().length;
+  const tag = exN === 4 ? ' <span class="muted">(example data)</span>' : exN ? ' <span class="muted">(includes example data)</span>' : '';
   set('ccal', A.Cs.length ? 'C<sub>cal</sub> by run: <b>' + A.runs.filter(r => r.kind === 'cal').map(r => isFinite(r.C) ? fmt(r.C/1000,4) : '—').join(', ') + '</b> kJ K⁻¹; mean <b>' + fmt(A.Cmean/1000,4) + '</b>' + (isFinite(A.Csd) ? ', s = <b>' + fmt(A.Csd,1) + ' J K⁻¹</b>, spread ' + fmt(A.Csd/A.Cmean*100,2) + ' %' : '') + tag : 'No complete calibration run yet.');
   set('sample', isFinite(A.Hm) ? 'Δ<sub>c</sub>u = <b>' + fmt(A.duMean/1000,3) + ' kJ g⁻¹</b>; Δ<sub>c</sub>U<sub>m</sub> = <b>' + fmt(A.Um,1) + '</b>; Δ<sub>c</sub>H<sub>m</sub> = <b>' + fmt(A.Hm,1) + ' kJ mol⁻¹</b>' + (isFinite(A.diff) ? '; ' + fmtS(A.diff,2) + ' % from ' + fmt(A.lit,1) : '') + tag : 'No complete sample run yet.');
   set('dfh', isFinite(A.Hf) ? 'Δ<sub>f</sub>H° = <b>' + fmtS(A.Hf,1) + ' kJ mol⁻¹</b> (from Δ<sub>c</sub>H<sub>m</sub> = ' + fmt(A.Hm,1) + ')' + tag : 'Needs a complete sample result.');
@@ -1278,7 +1518,8 @@ function renderLive(A){
 
 /* ---------- questions ---------- */
 const ANS_KEY = 'bombcal.answers.v1';
-const ANS = store.get(ANS_KEY) || {};
+let ANS = store.get(ANS_KEY);
+if(!ANS || typeof ANS !== 'object' || Array.isArray(ANS)) ANS = {};
 function saveAns(){ store.set(ANS_KEY, ANS); }
 
 const PRELAB = [
@@ -1368,7 +1609,7 @@ function showMcq(card, q, j){
     box.appendChild(card);
     if(q.type === 'mcq'){
       for(const r of $$('input[type=radio]', card)) r.addEventListener('change', () => { ANS[id] = +r.value; saveAns(); showMcq(card, q, +r.value); });
-      if(ANS[id] != null){ const r = $('#pre-' + i + '-' + ANS[id]); if(r){ r.checked = true; showMcq(card, q, ANS[id]); } }
+      if(Number.isInteger(ANS[id]) && ANS[id] >= 0 && ANS[id] < q.o.length){ const r = $('#pre-' + i + '-' + ANS[id]); if(r){ r.checked = true; showMcq(card, q, ANS[id]); } }
     }
     if(q.type === 'num'){
       const inp = $('#' + id + '-in'), slot = $('.fb-slot', card);
@@ -1384,7 +1625,7 @@ function showMcq(card, q, j){
       inp.addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); check(); } });
       if(ANS[id]) inp.value = ANS[id];
     }
-    if(q.type === 'short'){ const ta = $('#' + id + '-ta'); ta.value = ANS[id] || ''; ta.addEventListener('input', () => { ANS[id] = ta.value; saveAns(); }); }
+    if(q.type === 'short'){ const ta = $('#' + id + '-ta'); ta.value = typeof ANS[id] === 'string' ? ANS[id] : ''; ta.addEventListener('input', () => { ANS[id] = ta.value; saveAns(); }); }
   });
 })();
 
@@ -1396,7 +1637,7 @@ function showMcq(card, q, j){
     const live = q.live ? '<div class="live"><span class="lt">From your worksheet</span><span data-live="' + q.live + '"></span></div>' : '';
     card.innerHTML = '<div class="q-head"><span class="q-no">E' + (i+1) + '</span><div><div class="q-text" id="' + id + '-q">' + q.q + '</div><div class="q-body">' + live + '<textarea id="' + id + '-ta" rows="5" aria-labelledby="' + id + '-q" placeholder="Type your answer"></textarea><details><summary>What a complete answer includes</summary><div class="sol">' + q.g + '</div></details></div></div></div>';
     box.appendChild(card);
-    const ta = $('#' + id + '-ta'); ta.value = ANS[id] || ''; ta.addEventListener('input', () => { ANS[id] = ta.value; saveAns(); });
+    const ta = $('#' + id + '-ta'); ta.value = typeof ANS[id] === 'string' ? ANS[id] : ''; ta.addEventListener('input', () => { ANS[id] = ta.value; saveAns(); });
   });
 })();
 
